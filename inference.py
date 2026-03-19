@@ -2,17 +2,20 @@ from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
 
-# Carrega o modelo salvo
 with open("modelo.pkl", "rb") as f:
     modelo = pickle.load(f)
 
 app = Flask(__name__)
 
+@app.route("/", methods=["GET"])
+def home():
+    return "API de Diagnóstico de Diabetes Pima - Status: Online e operando!"
+
 @app.route("/predict", methods=["POST"])
 def predict():
 
     dados = request.json
-
+    
     df = pd.DataFrame(dados)
 
     pred = modelo.predict(df)
